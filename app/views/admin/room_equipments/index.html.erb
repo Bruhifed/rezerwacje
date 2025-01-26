@@ -1,0 +1,93 @@
+<style>
+  .container {
+      padding: 20px;
+  }
+    .akcje {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        border: 1px solid black;
+    }
+    .cancel-button {
+        border: none;
+        background: none;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        display: inline-block;
+        margin-left: 10px;
+        color: red;
+        text-decoration: underline;
+    }
+    .edit-link {
+        margin-right: 10px;
+        margin-top: 1px;
+        color: green;
+    }
+    .add-equipment{
+        form{
+            display: flex;
+            flex-direction: column;
+            label{
+                padding: 5px 0px 5px 0px;
+            }
+            button{
+                margin-top: 10px;
+                padding: 10px;
+                border: 1px solid dodgerblue;
+                border-radius: 5px;
+            }
+        }
+        height: fit-content;
+        width: fit-content;
+        padding: 15px;
+        border: 1px solid black;
+        border-radius: 15px;
+    }
+</style>
+<div class="container">
+    <h2>Zarządzanie sprzętem</h2>
+
+    <!-- Formularz dodawania sprzętu -->
+    <div class="add-equipment">
+      <form action="/admin/room_equipments" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+        <label for="equipment_name">Nazwa sprzętu:</label>
+        <input type="text" id="equipment_name" name="room_equipment[name]" required>
+
+        <label for="equipment_quantity">Ilość:</label>
+        <input type="number" id="equipment_quantity" name="room_equipment[quantity]" required>
+
+        <label for="equipment_description">Opis sprzętu:</label>
+        <textarea id="equipment_description" name="room_equipment[description]"></textarea>
+
+        <button type="submit">Dodaj sprzęt</button>
+      </form>
+
+    </div>
+
+    <table>
+      <thead>
+      <tr>
+        <th>Nazwa sprzętu</th>
+        <th>Opis</th>
+        <th>Ilość</th>
+        <th>Akcje</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @room_equipments.each do |room_equipment| %>
+        <tr>
+          <td><%= room_equipment.name %></td>
+          <td><%= room_equipment.description %></td>
+          <td><%= room_equipment.quantity %></td>
+          <td class="akcje">
+            <%= link_to 'Edytuj', edit_admin_room_equipment_path(room_equipment), class: "edit-link" %> |
+            <%= button_to "Usuń", admin_room_equipment_path(room_equipment), method: :delete, class: "cancel-button", form: { data: { turbo: false } } %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+</div>

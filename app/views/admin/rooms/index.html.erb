@@ -1,0 +1,89 @@
+<style>
+    .container {
+        padding: 20px;
+    }
+    .akcje {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        border: 1px solid black;
+    }
+    .cancel-button {
+        border: none;
+        background: none;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        display: inline-block;
+        margin-left: 10px;
+        color: red;
+        text-decoration: underline;
+    }
+    .edit-link {
+        margin-right: 10px;
+        margin-top: 1px;
+        color: green;
+    }
+    .add-room{
+        form{
+            display: flex;
+            flex-direction: column;
+            label{
+                padding: 5px 0px 5px 0px;
+            }
+            button{
+                margin-top: 10px;
+                padding: 10px;
+                border: 1px solid dodgerblue;
+                border-radius: 5px;
+            }
+        }
+        height: fit-content;
+        width: fit-content;
+        padding: 15px;
+        border: 1px solid black;
+        border-radius: 15px;
+    }
+</style>
+<div class="container">
+    <h2>Zarządzanie pokojami</h2>
+    <div class="add-room">
+        <form action="/admin/rooms" method="post">
+          <label for="room_name">Nazwa pokoju:</label>
+          <input type="text" id="room_name" name="room[name]" required>
+
+          <label for="room_capacity">Pojemność pokoju:</label>
+          <input type="number" id="room_capacity" name="room[capacity]" required>
+
+          <label for="room_description">Opis pokoju:</label>
+          <textarea id="room_description" name="room[description]"></textarea>
+
+          <button type="submit">Dodaj pokój</button>
+        </form>
+    </div>
+
+
+    <table>
+      <thead>
+      <tr>
+        <th>Nazwa pokoju</th>
+        <th>Opis</th>
+        <th>Pojemność</th>
+        <th>Akcje</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @rooms.each do |room| %>
+        <tr>
+          <td><%= room.name %></td>
+          <td><%= room.description %></td>
+          <td><%= room.capacity %></td>
+          <td class="akcje">
+              <%= link_to 'Edytuj', edit_admin_room_path(room), class: "edit-link" %> |
+              <%= button_to "Usuń", admin_room_path(room), method: :delete, class: "cancel-button", form: { data: { turbo: false } } %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+</div>

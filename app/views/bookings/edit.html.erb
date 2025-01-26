@@ -1,0 +1,81 @@
+<style>
+    .container {
+        padding: 20px;
+    }
+    .edit-booking{
+        .form-group{
+            display: flex;
+            flex-direction: column;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        form{
+            display: flex;
+            flex-direction: column;
+            label{
+                padding: 5px 0px 5px 0px;
+            }
+            input[type=submit]{
+                margin-top: 10px;
+                padding: 10px;
+                border: 1px solid dodgerblue;
+                border-radius: 5px;
+            }
+        }
+        height: fit-content;
+        width: fit-content;
+        padding: 15px;
+        border: 1px solid black;
+        border-radius: 15px;
+    }
+</style>
+<div class="container">
+    <h1>Edytuj rezerwację</h1>
+    <div class="edit-booking">
+    <%= form_with model: @booking, url: booking_path(@booking), method: :patch do |f| %>
+        <div class="form-group">
+          <%= f.label :room_id, 'Pokój' %>
+          <%= f.collection_select :room_id, Room.all, :id, :name %>
+        </div>
+        <div class="form-group">
+          <%= f.label :start_date, "Data początku" %>
+          <%= f.date_field :start_date, required: true, id: "startDatePicker"  %>
+        </div>
+        <div class="form-group">
+          <%= f.label :end_date, "Data końca" %>
+          <%= f.date_field :end_date, required: true, id: "endDatePicker"  %>
+        </div>
+        <div class="checkbox-group">
+          <%= f.label :room_equipment_ids, 'Sprzęt:' %>
+          <%= f.collection_check_boxes :room_equipment_ids, RoomEquipment.all, :id, :name %>
+        </div>
+        <%= f.submit 'Edytuj' %>
+      <% end %>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const startDatePicker = document.getElementById("startDatePicker");
+        const endDatePicker = document.getElementById("endDatePicker");
+
+        if (startDatePicker) {
+            const today = new Date();
+            const minDate = today.toISOString().split("T")[0];
+            startDatePicker.setAttribute("min", minDate);
+        } else {
+            console.error('Element o ID "startDatePicker" nie został znaleziony.');
+        }
+
+        if (endDatePicker) {
+            const today = new Date();
+            const minDate = today.toISOString().split("T")[0];
+            endDatePicker.setAttribute("min", minDate);
+        } else {
+            console.error('Element o ID "endDatePicker" nie został znaleziony.');
+        }
+    });
+</script>

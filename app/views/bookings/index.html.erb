@@ -1,0 +1,68 @@
+<style>
+  .container {
+      padding: 20px;
+  }
+  .akcje {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      border: 1px solid black;
+  }
+  .cancel-button {
+      border: none;
+      background: none;
+      font-size: 16px;
+      cursor: pointer;
+      text-align: center;
+      display: inline-block;
+      margin-left: 10px;
+      color: red;
+      text-decoration: underline;
+  }
+  .edit-link {
+      margin-right: 10px;
+      margin-top: 1px;
+      color: green;
+  }
+</style>
+<div class="container">
+  <h1>Moje rezerwacje</h1>
+  <%= link_to 'Nowa rezerwacja', new_booking_path %>
+  <table>
+    <thead>
+    <tr>
+      <th>Pokój</th>
+      <th>Sprzęt</th>
+      <th>Data początku</th>
+      <th>Data końca</th>
+      <th>Akcje</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @bookings.each do |booking| %>
+      <tr>
+        <td><%= booking.room.name %></td>
+        <td>
+          <% if booking.room_equipments.any? %>
+            <% booking.room_equipments.each do |equipment| %>
+              <%= equipment.name %>
+            <% end %>
+          <% else %>
+            <em>No Equipment</em>
+          <% end %>
+        </td>
+        <td><%= booking.start_date %></td>
+        <td><%= booking.end_date %></td>
+        <td class="akcje">
+          <% if Date.current <= booking.start_date && Date.current <= booking.end_date %>
+            <%= link_to 'Edytuj', edit_booking_path(booking), class: "edit-link" %> |
+            <%= button_to "Anuluj", booking_path(booking), method: :delete, class: "cancel-button", form: { data: { turbo: false } } %>
+          <% else %>
+            <em>Zakończona rezerwacja</em>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

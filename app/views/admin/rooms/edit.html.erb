@@ -1,0 +1,50 @@
+<style>
+    .container {
+        padding: 20px;
+    }
+    .edit-room{
+        div{
+            display: flex;
+            flex-direction: column;
+        }
+        form{
+            display: flex;
+            flex-direction: column;
+            label{
+                padding: 5px 0px 5px 0px;
+            }
+            input[type=submit]{
+                margin-top: 10px;
+                padding: 10px;
+                border: 1px solid dodgerblue;
+                border-radius: 5px;
+            }
+        }
+        height: fit-content;
+        width: fit-content;
+        padding: 15px;
+        border: 1px solid black;
+        border-radius: 15px;
+    }
+</style>
+
+<div class="container">
+  <h3>Edytuj istniejący pokój</h3>
+  <div class="edit-room">
+    <%= form_with model: @room, url: admin_room_path(@room) do |f| %>
+      <div>
+        <%= f.label :name, 'Nazwa pokoju' %>
+        <%= f.text_field :name, required: true %>
+      </div>
+      <div>
+        <%= f.label :capacity, 'Pojemność' %>
+        <%= f.number_field :capacity, required: true %>
+      </div>
+      <div>
+        <%= f.label :description, 'Opis pokoju' %>
+        <%= f.text_area :description %>
+      </div>
+      <%= f.submit 'Edytuj' %>
+    <% end %>
+  </div>
+</div>

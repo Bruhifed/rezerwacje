@@ -1,0 +1,49 @@
+<style>
+  .container{
+      padding: 20px;
+  }
+    .edit-equipment{
+        div{
+            display: flex;
+            flex-direction: column;
+        }
+        form{
+            display: flex;
+            flex-direction: column;
+            label{
+                padding: 5px 0px 5px 0px;
+            }
+            input[type=submit]{
+                margin-top: 10px;
+                padding: 10px;
+                border: 1px solid dodgerblue;
+                border-radius: 5px;
+            }
+        }
+        height: fit-content;
+        width: fit-content;
+        padding: 15px;
+        border: 1px solid black;
+        border-radius: 15px;
+    }
+</style>
+<div class="container">
+  <h3>Edytuj istniejący sprzęt</h3>
+  <div class="edit-equipment">
+    <%= form_with model: @room_equipment, url: admin_room_equipment_path(@room_equipment) do |f| %>
+      <div>
+        <%= f.label :name, 'Nazwa sprzętu' %>
+        <%= f.text_field :name, required: true %>
+      </div>
+      <div>
+        <%= f.label :quantity, 'Ilość sprzętu' %>
+        <%= f.number_field :quantity, required: true %>
+      </div>
+      <div>
+        <%= f.label :description, 'Opis sprzętu' %>
+        <%= f.text_area :description %>
+      </div>
+      <%= f.submit 'Edytuj' %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<style>
+    .container {
+        padding: 20px;
+    }
+    .register{
+        div{
+            display: flex;
+            flex-direction: column;
+        }
+        form{
+            display: flex;
+            flex-direction: column;
+            label{
+                padding: 5px 0px 5px 0px;
+            }
+            input[type=submit]{
+                margin-top: 10px;
+                padding: 10px;
+                border: 1px solid dodgerblue;
+                border-radius: 5px;
+            }
+        }
+        height: fit-content;
+        width: fit-content;
+        padding: 15px;
+        border: 1px solid black;
+        border-radius: 15px;
+    }
+</style>
+<div class="container">
+  <h1>Rejestracja</h1>
+  <div class="register">
+    <%= form_with model: @user, url: register_path do |f| %>
+      <div>
+        <%= f.label :name, "Nazwa" %>
+        <%= f.text_field :name, required: true %>
+      </div>
+      <div>
+        <%= f.label :email %>
+        <%= f.email_field :email, required: true %>
+      </div>
+      <div>
+        <%= f.label :password, "Hasło" %>
+        <%= f.password_field :password, required: true %>
+      </div>
+      <div>
+        <%= f.label :password_confirmation, "Potwierdź hasło" %>
+        <%= f.password_field :password_confirmation, required: true %>
+      </div>
+      <%= f.submit 'Zarejestruj' %>
+    <% end %>
+  </div>
+</div>
